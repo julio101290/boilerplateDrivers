@@ -89,7 +89,13 @@ class ChoferesController extends BaseController {
             $datosChoferes["nombrePais"] = "";
         }
 
-        if ($datosChoferes["EstadoFigura"] != NULL) {
+
+
+        if ($datosChoferes["EstadoFigura"] != NULL
+             && $datosChoferes["EstadoFigura"] != ""
+             && $datosChoferes["EstadoFigura"] != "null"
+            
+            ) {
 
             $datosEstado = $this->catalogosSAT->estados40()->obtain($datosChoferes["EstadoFigura"], $datosChoferes["PaisFigura"]);
             $datosChoferes["nombreEstado"] = $datosEstado->texto();
@@ -97,7 +103,13 @@ class ChoferesController extends BaseController {
             $datosChoferes["nombreEstado"] = "";
         }
 
-        if ($datosChoferes["MunicipioFigura"] != NULL) {
+
+
+        if ($datosChoferes["MunicipioFigura"] != NULL
+            && $datosChoferes["MunicipioFigura"] != ""
+             && $datosChoferes["MunicipioFigura"] != "null"
+            
+            ) {
 
             $datosMunicipio = $this->catalogosSAT->municipios40()->obtain($datosChoferes["MunicipioFigura"], $datosChoferes["EstadoFigura"]);
             $datosChoferes["nombreMunicipio"] = $datosMunicipio->texto();
