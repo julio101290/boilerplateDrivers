@@ -25,7 +25,9 @@ CodeIgniter4 Boilerplatedrivers CRUD MVC capture drivers for invoices and Mexica
 
 	composer require julio101290/boilerplatetypesmovement
 
- 	composer require julio101290/boilerplatevehicles
+ 	composer require julio101290/boilerplatedrivers
+
+  	
 
 ### Run command for migration and seeder
 
@@ -38,19 +40,16 @@ CodeIgniter4 Boilerplatedrivers CRUD MVC capture drivers for invoices and Mexica
 	php spark boilerplatetypesmovement:installtypesmovement
 
  	php spark boilerplatevehicles:installvehicles
+
+  	php spark boilerplatedrivers:installdrivers
 	
 
-# Make the Menu Type Vehicle, Example
-![image](https://github.com/user-attachments/assets/f385bc9c-8408-40e6-a3dd-6bb333d42538)
-
-# Make the Menu Vehicle, Example
-![image](https://github.com/user-attachments/assets/fc973296-610e-427f-8af5-4c7c3b415fcb)
+# Make the Menu Drivers, Example
+![image](https://github.com/user-attachments/assets/1deb185e-82cf-475b-bf93-4845bceb927c)
 
 
 # Ready
-![image](https://github.com/user-attachments/assets/6bc63453-fd53-4e3c-a5db-38368068572c)
-
-![image](https://github.com/user-attachments/assets/c526ca56-742b-4e12-b4f5-e9bb04fe8a25)
+![image](https://github.com/user-attachments/assets/fa0c4c32-0310-423d-9981-c8364978d146)
 
 
 Usage
