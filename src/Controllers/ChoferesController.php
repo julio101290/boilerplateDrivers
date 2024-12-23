@@ -78,7 +78,10 @@ class ChoferesController extends BaseController {
         $datosChoferes = $this->choferes->whereIn('idEmpresa', $empresasID)
                         ->where("id", $idChoferes)->first();
 
-        if ($datosChoferes["PaisFigura"] != NULL) {
+        if ($datosChoferes["PaisFigura"] != NULL 
+            && $datosChoferes["PaisFigura"] != ""
+             && $datosChoferes["PaisFigura"] != "null"
+        ) {
 
             $datosPaises = $this->catalogosSAT->paises40()->obtain($datosChoferes["PaisFigura"]);
             $datosChoferes["nombrePais"] = $datosPaises->texto();
