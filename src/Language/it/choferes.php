@@ -32,3 +32,5 @@ $choferes["msg"]["msg_update"] = "Record modificato correttamente.";
 $choferes["msg"]["msg_delete"] = "Record eliminato correttamente.";
 $choferes["msg"]["msg_get"] = "Record recuperato correttamente.";
 $choferes["msg"]["msg_get_fail"] = "Record non trovato o eliminato.";
+
+return $choferes;
