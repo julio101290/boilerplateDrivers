@@ -2,7 +2,6 @@
 
 namespace julio101290\boilerplatedrivers\Models;
 
-
 use CodeIgniter\Model;
 
 class ChoferesModel extends Model {
@@ -35,27 +34,29 @@ class ChoferesModel extends Model {
     protected $skipValidation = false;
 
     public function mdlGetChoferes($idEmpresas) {
+        $builder = $this->db->table('choferes a');
 
-        $result = $this->db->table('choferes a, empresas b')
-                ->select('a.id
-                         ,a.idEmpresa
-                         ,a.nombre
-                         ,a.Apellido
-                         ,a.tipoFigura
-                         ,a.RFCFigura
-                         ,a.numLicencia
-                         ,a.MunicipioFigura
-                         ,a.EstadoFigura
-                         ,a.PaisFigura
-                         ,a.CodigoPostalFigura
+        $builder->select([
+            'a.id AS id',
+            'a.idEmpresa AS idEmpresa',
+            'a.nombre AS nombre',
+            'a.Apellido AS Apellido',
+            'a.tipoFigura AS tipoFigura',
+            'a.RFCFigura AS RFCFigura',
+            'a.numLicencia AS numLicencia',
+            'a.MunicipioFigura AS MunicipioFigura',
+            'a.EstadoFigura AS EstadoFigura',
+            'a.PaisFigura AS PaisFigura',
+            'a.CodigoPostalFigura AS CodigoPostalFigura',
+            'a.created_at AS created_at',
+            'a.updated_at AS updated_at',
+            'a.deleted_at AS deleted_at',
+            'b.nombre AS nombreEmpresa'
+        ]);
 
-                         ,a.created_at
-                         ,a.updated_at
-                         ,a.deleted_at 
-                         ,b.nombre as nombreEmpresa')
-                ->where('a.idEmpresa', 'b.id', FALSE)
-                ->whereIn('a.idEmpresa', $idEmpresas);
+        $builder->join('empresas b', 'a.idEmpresa = b.id');
+        $builder->whereIn('a.idEmpresa', $idEmpresas);
 
-        return $result;
+        return $builder;
     }
 }
