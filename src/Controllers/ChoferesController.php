@@ -78,9 +78,7 @@ class ChoferesController extends BaseController {
         $datosChoferes = $this->choferes->whereIn('idEmpresa', $empresasID)
                         ->where("id", $idChoferes)->first();
 
-        if ($datosChoferes["PaisFigura"] != NULL 
-            && $datosChoferes["PaisFigura"] != ""
-             && $datosChoferes["PaisFigura"] != "null"
+        if ($datosChoferes["PaisFigura"] != NULL && $datosChoferes["PaisFigura"] != "" && $datosChoferes["PaisFigura"] != "null"
         ) {
 
             $datosPaises = $this->catalogosSAT->paises40()->obtain($datosChoferes["PaisFigura"]);
@@ -91,11 +89,8 @@ class ChoferesController extends BaseController {
 
 
 
-        if ($datosChoferes["EstadoFigura"] != NULL
-             && $datosChoferes["EstadoFigura"] != ""
-             && $datosChoferes["EstadoFigura"] != "null"
-            
-            ) {
+        if ($datosChoferes["PaisFigura"] != NULL && $datosChoferes["PaisFigura"] != "" && $datosChoferes["PaisFigura"] != "null" && $datosChoferes["EstadoFigura"] != NULL && $datosChoferes["EstadoFigura"] != "" && $datosChoferes["EstadoFigura"] != "null"
+        ) {
 
             $datosEstado = $this->catalogosSAT->estados40()->obtain($datosChoferes["EstadoFigura"], $datosChoferes["PaisFigura"]);
             $datosChoferes["nombreEstado"] = $datosEstado->texto();
@@ -105,11 +100,8 @@ class ChoferesController extends BaseController {
 
 
 
-        if ($datosChoferes["MunicipioFigura"] != NULL
-            && $datosChoferes["MunicipioFigura"] != ""
-             && $datosChoferes["MunicipioFigura"] != "null"
-            
-            ) {
+        if ($datosChoferes["MunicipioFigura"] != NULL && $datosChoferes["MunicipioFigura"] != "" && $datosChoferes["MunicipioFigura"] != "null"
+        ) {
 
             $datosMunicipio = $this->catalogosSAT->municipios40()->obtain($datosChoferes["MunicipioFigura"], $datosChoferes["EstadoFigura"]);
             $datosChoferes["nombreMunicipio"] = $datosMunicipio->texto();
@@ -217,38 +209,42 @@ class ChoferesController extends BaseController {
 
         // Read new token and assign in $response['token']
         $response['token'] = csrf_hash();
-        $custumers = new ChoferesModel();
+        $drivers = new ChoferesModel();
         $idEmpresa = $postData['idEmpresa'];
 
         if (!isset($postData['searchTerm'])) {
             // Fetch record
 
-            $listCustumers = $custumers->select('id,nombre,apellido')->where("deleted_at", null)
+            $listDrivers = $drivers
+                    ->select('id, nombre, Apellido')
                     ->where('idEmpresa', $idEmpresa)
                     ->orderBy('id')
                     ->orderBy('nombre')
-                    ->orderBy('apellido')
+                    ->orderBy('Apellido')
                     ->findAll(50);
         } else {
             $searchTerm = $postData['searchTerm'];
 
-            // Fetch record
+            $db = \Config\Database::connect();
+            $searchTerm = strtolower($db->escapeLikeString($searchTerm));
 
-            $listCustumers = $custumers->select('id,nombre,apellido')->where("deleted_at", null)
-                    ->where('idEmpresa', $idEmpresa)
-                    ->groupStart()
-                    ->like('nombre', $searchTerm)
-                    ->orLike('id', $searchTerm)
-                    ->orLike('apellido', $searchTerm)
-                    ->groupEnd()
-                    ->findAll(50);
+            $listDrivers = $drivers
+            ->select('id, nombre, "Apellido"')  // nota las comillas en Apellido
+            ->where('deleted_at IS NULL', null, false)
+            ->where('idEmpresa', $idEmpresa)
+            ->groupStart()
+            ->where('LOWER(nombre) LIKE', "%{$searchTerm}%")
+            ->orWhere('CAST(id AS TEXT) LIKE', "%{$searchTerm}%")
+            ->orWhere('LOWER("Apellido") LIKE', "%{$searchTerm}%") // comillas aquí también
+            ->groupEnd()
+            ->findAll(50);
         }
 
         $data = array();
-        foreach ($listCustumers as $custumers) {
+        foreach ($listDrivers as $driver) {
             $data[] = array(
-                "id" => $custumers['id'],
-                "text" => $custumers['id'] . ' ' . $custumers['nombre'] . ' ' . $custumers['apellido'],
+                "id" => $driver['id'],
+                "text" => $driver['id'] . ' ' . $driver['nombre'] . ' ' . $driver['Apellido'],
             );
         }
 
